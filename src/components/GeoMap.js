@@ -653,11 +653,6 @@ export default class GeoMap {
 
     markerObject.attr('class', `mt-map-marker ${markerClassName}`);
 
-    // Exit
-    markerItem.exit().transition().attr('r', 0).attr('fill', '#eee')
-      .style('opacity', 0)
-      .remove();
-
     // Update
     const attrX = this.options.markers.attrX ? this.options.markers.attrX : 'cx';
     const attrY = this.options.markers.attrY ? this.options.markers.attrY : 'cy';
@@ -667,11 +662,19 @@ export default class GeoMap {
 
     const markerUpdate = markerItem.attr(attrX, (d) => d.values[0].x + attrXDelta).attr(attrY, (d) => d.values[0].y + attrYDelta);
 
-    this.getAllMtMapMarker().each(function (d) {
-      Object.keys(d.attr).forEach((key) => {
-        d3.select(this).attr(key, d.attr[key]);
-      });
-    });
+    // apply marker attributes only to updated markers data(with filters), & also before exit/removal from DOM 
+    markerItem && markerItem[0].forEach((mark,index)=>{
+      if(this.dataMarkers && this.dataMarkers[index] && this.dataMarkers[index].attr){
+        Object.keys(this.dataMarkers[index].attr).forEach((key)=>{
+         mark.setAttribute(key, this.dataMarkers[index].attr[key]);
+        })
+       }
+     });
+
+    // Exit
+    markerItem.exit().transition().attr('r', 0).attr('fill', '#eee')
+    .style('opacity', 0)
+    .remove();
 
     if (this.options.markers.tooltip) {
       this.activateTooltip(markerUpdate, this.tooltipMarkersNode, this.options.markers.tooltip, false);

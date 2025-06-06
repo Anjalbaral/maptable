@@ -1639,9 +1639,6 @@ this.d3.maptable = (function () {
 
           markerObject.attr('class', 'mt-map-marker ' + markerClassName);
 
-          // Exit
-          markerItem.exit().transition().attr('r', 0).attr('fill', '#eee').style('opacity', 0).remove();
-
           // Update
           var attrX = this.options.markers.attrX ? this.options.markers.attrX : 'cx';
           var attrY = this.options.markers.attrY ? this.options.markers.attrY : 'cy';
@@ -1655,13 +1652,17 @@ this.d3.maptable = (function () {
             return d.values[0].y + attrYDelta;
           });
 
-          this.getAllMtMapMarker().each(function (d) {
-            var _this9 = this;
-
-            Object.keys(d.attr).forEach(function (key) {
-              d3.select(_this9).attr(key, d.attr[key]);
-            });
+          // apply marker attributes only to updated markers data(with filters), & also before exit/removal from DOM 
+          markerItem && markerItem[0].forEach(function (mark, index) {
+            if (_this8.dataMarkers && _this8.dataMarkers[index] && _this8.dataMarkers[index].attr) {
+              Object.keys(_this8.dataMarkers[index].attr).forEach(function (key) {
+                mark.setAttribute(key, _this8.dataMarkers[index].attr[key]);
+              });
+            }
           });
+
+          // Exit
+          markerItem.exit().transition().attr('r', 0).attr('fill', '#eee').style('opacity', 0).remove();
 
           if (this.options.markers.tooltip) {
             this.activateTooltip(markerUpdate, this.tooltipMarkersNode, this.options.markers.tooltip, false);
@@ -1947,7 +1948,7 @@ this.d3.maptable = (function () {
       }, {
         key: 'setAttrValues',
         value: function setAttrValues(attrKey, attrValue, dataset) {
-          var _this10 = this;
+          var _this9 = this;
 
           if (typeof attrValue === 'number' || typeof attrValue === 'string') {
             // Static value
@@ -2069,11 +2070,11 @@ this.d3.maptable = (function () {
                 d.attrProperties[attrKey].key = key;
                 d.attrProperties[attrKey].mode = mode;
                 d.attrProperties[attrKey].scale = scale;
-                var c = _this10.maptable.columnDetails[key];
+                var c = _this9.maptable.columnDetails[key];
                 d.attrProperties[attrKey].columnDetails = c;
                 var datum = {};
                 datum[key] = aggregatedValue;
-                d.attrProperties[attrKey].formatted = c && c.cellContent ? c.cellContent.bind(_this10.maptable)(datum) : aggregatedValue;
+                d.attrProperties[attrKey].formatted = c && c.cellContent ? c.cellContent.bind(_this9.maptable)(datum) : aggregatedValue;
               }
             });
             if (scale === 'rank') {
@@ -2155,7 +2156,7 @@ this.d3.maptable = (function () {
                 scaledValue = attrValue.empty;
               } else {
                 var originalValueRaw = d.attrProperties[attrKey].value;
-                var originalValue = attrValue.transform ? attrValue.transform.bind(_this10.maptable)(originalValueRaw, _this10.maptable.data) : originalValueRaw;
+                var originalValue = attrValue.transform ? attrValue.transform.bind(_this9.maptable)(originalValueRaw, _this9.maptable.data) : originalValueRaw;
 
                 if (useNegative && originalValue < 0) {
                   scaledValue = scaleNegativeFunction(originalValue);
@@ -2190,14 +2191,14 @@ this.d3.maptable = (function () {
       }, {
         key: 'updateTitle',
         value: function updateTitle() {
-          var _this11 = this;
+          var _this10 = this;
 
           if (this.options.title.content) {
             var showing = this.maptable.data.filter(function (d) {
-              return d[_this11.options.latitudeKey] !== 0;
+              return d[_this10.options.latitudeKey] !== 0;
             }).length;
             var total = this.maptable.rawData.filter(function (d) {
-              return d[_this11.options.latitudeKey] !== 0;
+              return d[_this10.options.latitudeKey] !== 0;
             }).length;
 
             var inlineFilters = '';
