@@ -1652,7 +1652,7 @@ this.d3.maptable = (function () {
             return d.values[0].y + attrYDelta;
           });
 
-          // apply marker attributes only to updated markers data(with filters), & also before exit/removal from DOM 
+          // apply marker attributes only to updated markers data(with filters), & also before exit/removal from DOM
           markerItem && markerItem[0].forEach(function (mark, index) {
             if (_this8.dataMarkers && _this8.dataMarkers[index] && _this8.dataMarkers[index].attr) {
               Object.keys(_this8.dataMarkers[index].attr).forEach(function (key) {
