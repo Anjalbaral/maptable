@@ -240,8 +240,8 @@ export default class Table {
         }
 
         if (typeof el1 === 'string' && typeof el2 === 'string') {
-          el1 = el1.toLowerCase();
-          el2 = el2.toLowerCase();
+          el1 = this.normalizeText(el1.toLowerCase());
+          el2 = this.normalizeText(el2.toLowerCase());
         }
 
         if (columnDetails.filterInputType === 'months' || columnDetails.filterInputType === 'days') {
@@ -254,6 +254,21 @@ export default class Table {
       });
       return compareBool;
     });
+  }
+
+  /**
+   * Util for normalizing string by removing diacritic marks
+   */
+  normalizeText(txt) {
+    try {
+    // normalize text to NFD(Normalization Form Cononical Decomposition)
+      const normalizedText = txt.normalize('NFD');
+      // remove diacritic marks
+      const engText = normalizedText.replace(/[\u0300-\u036f]/g, '');
+      return engText || txt;
+    } catch (e) {
+      return txt;
+    }
   }
 
   /**
