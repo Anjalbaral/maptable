@@ -3066,8 +3066,8 @@ this.d3.maptable = (function () {
               }
 
               if (typeof el1 === 'string' && typeof el2 === 'string') {
-                el1 = el1.toLowerCase();
-                el2 = el2.toLowerCase();
+                el1 = _this3.normalizeText(el1.toLowerCase());
+                el2 = _this3.normalizeText(el2.toLowerCase());
               }
 
               if (columnDetails.filterInputType === 'months' || columnDetails.filterInputType === 'days') {
@@ -3082,6 +3082,24 @@ this.d3.maptable = (function () {
             });
             return compareBool;
           });
+        }
+
+        /**
+         * Util for normalizing string by removing diacritic marks
+         */
+
+      }, {
+        key: 'normalizeText',
+        value: function normalizeText(txt) {
+          try {
+            // normalize text to NFD(Normalization Form Cononical Decomposition)
+            var normalizedText = txt.normalize('NFD');
+            // remove diacritic marks
+            var engText = normalizedText.replace(/[\u0300-\u036f]/g, '');
+            return engText || txt;
+          } catch (e) {
+            return txt;
+          }
         }
 
         /**
