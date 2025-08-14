@@ -879,7 +879,8 @@ export default class GeoMap {
     // Rescale markers size
     if (this.options.markers) {
       // markers
-      this.getAllMtMapMarker().each(function (d) {
+      const loadedMarkers = this.layerMarkers.selectAll('.mt-map-marker');
+      loadedMarkers.each(function (d) {
         // stroke
         if (d.attr['stroke-width']) {
           d3.select(this).attr('stroke-width', d.attr['stroke-width'] / self.scaleAttributes());
