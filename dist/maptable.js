@@ -1870,7 +1870,8 @@ this.d3.maptable = (function () {
           // Rescale markers size
           if (this.options.markers) {
             // markers
-            this.getAllMtMapMarker().each(function (d) {
+            var loadedMarkers = this.layerMarkers.selectAll('.mt-map-marker');
+            loadedMarkers.each(function (d) {
               // stroke
               if (d.attr['stroke-width']) {
                 d3.select(this).attr('stroke-width', d.attr['stroke-width'] / self.scaleAttributes());
@@ -3140,7 +3141,7 @@ this.d3.maptable = (function () {
               this.reOrderSorting(sortIndex, 0);
             }
           }
-          this.saveState();
+          if (this.maptable.firstExecution && this.options.saveState) this.saveState();
           this.render();
         }
 

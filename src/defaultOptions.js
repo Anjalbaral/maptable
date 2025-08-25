@@ -62,5 +62,6 @@ export default {
   table: {
     className: 'table table-striped table-bordered',
     collapseRowsBy: [],
+    saveState: true,
   },
 };

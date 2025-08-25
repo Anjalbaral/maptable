@@ -304,7 +304,7 @@ export default class Table {
         this.reOrderSorting(sortIndex, 0);
       }
     }
-    this.saveState();
+    if (this.maptable.firstExecution && this.options.saveState) this.saveState();
     this.render();
   }
 

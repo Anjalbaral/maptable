@@ -561,6 +561,7 @@ If you want to add a table on your visualization:
 - `dataCountIndicator:` _({enabled: boolean}, default: null)_ Enable this to display data count indication numbers.
 - `customSortOrder:` _([object,...], default: null)_ You can pass custom sorting order list for `months` & `days` data types for any column. You should pass an array of objects where each object should consist column `key` and an array of sort `order` string values for that column. Example : [{key:'day',order:['sunday','monday',...]}].
 - `collapseRowsBy:` _([string, ...], default: null)_ Array of columns that we want to be collapsed.
+- `saveState:` _(bool, default: true)_ Save table sort state into the URL.
 
 ## Export as SVG
 

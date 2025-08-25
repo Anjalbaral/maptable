@@ -14,7 +14,6 @@ var headerComment = require('gulp-header-comment');
 var rimraf = require('gulp-rimraf');
 
 var rename = require('gulp-rename');
-var _ = require('underscore');
 
 var reload = browserSync.reload;
 
