@@ -249,7 +249,8 @@ this.d3.maptable = (function () {
       },
       table: {
         className: 'table table-striped table-bordered',
-        collapseRowsBy: []
+        collapseRowsBy: [],
+        saveState: true
       }
     };
 
