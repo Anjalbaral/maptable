@@ -663,13 +663,15 @@ export default class GeoMap {
     const markerUpdate = markerItem.attr(attrX, (d) => d.values[0].x + attrXDelta).attr(attrY, (d) => d.values[0].y + attrYDelta);
 
     // apply marker attributes only to updated markers data(with filters), & also before exit/removal from DOM
-    markerItem && markerItem[0].forEach((mark, index) => {
-      if (this.dataMarkers && this.dataMarkers[index] && this.dataMarkers[index].attr) {
-        Object.keys(this.dataMarkers[index].attr).forEach((key) => {
-          mark.setAttribute(key, this.dataMarkers[index].attr[key]);
-        });
-      }
-    });
+    if (markerItem) {
+      markerItem[0].forEach((mark, index) => {
+        if (this.dataMarkers && this.dataMarkers[index] && this.dataMarkers[index].attr) {
+          Object.keys(this.dataMarkers[index].attr).forEach((key) => {
+            mark.setAttribute(key, this.dataMarkers[index].attr[key]);
+          });
+        }
+      });
+    }
 
     // Exit
     markerItem.exit().transition().attr('r', 0).attr('fill', '#eee')

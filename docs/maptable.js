@@ -1654,13 +1654,15 @@ this.d3.maptable = (function () {
           });
 
           // apply marker attributes only to updated markers data(with filters), & also before exit/removal from DOM
-          markerItem && markerItem[0].forEach(function (mark, index) {
-            if (_this8.dataMarkers && _this8.dataMarkers[index] && _this8.dataMarkers[index].attr) {
-              Object.keys(_this8.dataMarkers[index].attr).forEach(function (key) {
-                mark.setAttribute(key, _this8.dataMarkers[index].attr[key]);
-              });
-            }
-          });
+          if (markerItem) {
+            markerItem[0].forEach(function (mark, index) {
+              if (_this8.dataMarkers && _this8.dataMarkers[index] && _this8.dataMarkers[index].attr) {
+                Object.keys(_this8.dataMarkers[index].attr).forEach(function (key) {
+                  mark.setAttribute(key, _this8.dataMarkers[index].attr[key]);
+                });
+              }
+            });
+          }
 
           // Exit
           markerItem.exit().transition().attr('r', 0).attr('fill', '#eee').style('opacity', 0).remove();
